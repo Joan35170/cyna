@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  cyna-auth:
+    image: registry.gitlab.com/cyna-project/cyna-auth:latest
+    container_name: cyna-auth
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./cyna-auth/.env
+    depends_on:
+      - postgres-auth
+
+  postgres-auth:
+    image: postgres:15
+    container_name: postgres-auth
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: cyna_auth
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata-auth:/var/lib/postgresql/data
+
+volumes:
+  pgdata-auth:
