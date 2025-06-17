@@ -11,6 +11,16 @@ services:
     depends_on:
       - postgres-auth
 
+  cyna-product:
+    image: registry.gitlab.com/cyna-project/cyna-product:latest
+    container_name: cyna-product
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./cyna-product/.env
+    depends_on:
+      - postgres-product
+
   postgres-auth:
     image: postgres:15
     container_name: postgres-auth
@@ -23,5 +33,18 @@ services:
     volumes:
       - pgdata-auth:/var/lib/postgresql/data
 
+  postgres-product:
+    image: postgres:15
+    container_name: postgres-product
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: cyna_product
+    ports:
+      - "5434:5433"
+    volumes:
+      - pgdata-product:/var/lib/postgresql/data
+
 volumes:
   pgdata-auth:
+  pgdata-product:
