@@ -21,6 +21,16 @@ services:
     depends_on:
       - postgres-product
 
+  cyna-billing:
+    image: registry.gitlab.com/cyna-project/cyna-billing:latest
+    container_name: cyna-billing
+    ports:
+      - "4000:4000"
+    env_file:
+      - ./cyna-billing/.env
+    depends_on:
+      - postgres-billing
+
   postgres-auth:
     image: postgres:15
     container_name: postgres-auth
